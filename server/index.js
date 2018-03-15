@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
-mongoose.connect('mongodb://database/photos');
+mongoose.connect('mongodb://localhost/wegot');
 
 const Photos = require('../database/index.js');
 
@@ -26,12 +26,12 @@ app.get('/', (req, res) => {
 // retrieve data from API(db)
 app.get('/api/restaurants/:id/gallery', (req, res) => {
   const id = req.params.id;
-  console.log('server querying for id: ', id)
+  console.log('server querying for id: ', id);
   Photos.findOne(id, (err, data) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json(data);
+      res.json(data[0]);
     }
   });
 });

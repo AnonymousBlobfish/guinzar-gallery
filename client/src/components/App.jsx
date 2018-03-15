@@ -8,9 +8,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: [],
       siteName: '',
-      reviews: [],
       photos: [],
       currentImage: 0,
       lightboxIsOpen: false,
@@ -31,15 +29,23 @@ export default class App extends React.Component {
 
     axios.get(`/api/restaurants/${id}/gallery`)
       .then((response) => {
-        context.setState({
-          data: response.data[0],
-          siteName: response.data[0].place_name,
-        });
         console.log('client received data from id: ', id);
-      })
-      .then(() => {
-        this.setReviewsState();
-        this.setPhotosState();
+        console.log(response.data);
+        const photos = [];
+        for (let i = 0; i < response.data.photos.length; i += 1) {
+          const photo = {
+            src: response.data.photos[i].url,
+            width: 10,
+            height: 10,
+            caption: this.createCaption(response.data.photos[i]),
+          };
+          photos.push(photo);
+        }
+        context.setState({
+          photos,
+          siteName: response.data.name,
+          mainGridImages: photos.slice(0, 8),
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -51,47 +57,12 @@ export default class App extends React.Component {
     // in future this will render Modal Grid View
   }
 
-  setReviewsState() {
-    const siteReviews = this.state.data.reviews;
-    this.setState({
-      reviews: siteReviews,
-    });
-  }
-
-  setPhotosState() {
-    const urls = [];
-    const pics = this.state.data.photos;
-
-    for (let i = 0; i < pics.length; i += 1) {
-      const url = {
-        src: pics[i].url,
-        width: pics[i].width,
-        height: pics[i].height,
-        caption: this.assignRandomCaption(),
-      };
-      urls.push(url);
-    }
-    this.setState({
-      photos: urls,
-    });
-    this.populateMainGrid();
-  }
-
-  assignRandomCaption() {
-    const reviews = this.state.reviews;
-    const randomReview = reviews[Math.floor(Math.random() * reviews.length)];
-    const name = randomReview.name.toUpperCase();
-    const randomCaption =
-    (<div className="author-details"><img src={randomReview.avatar} alt="" className="avatar" /><div className="name">{name}</div></div>);
-    return randomCaption;
-  }
-
-  populateMainGrid() {
-    const display = [];
-    for (let i = 0; i < 8; i += 1) {
-      display.push(this.state.photos[i]);
-    }
-    this.setState({ mainGridImages: display });
+  createCaption(photo) {
+    return (<div className="author-details">
+      <div className="avatar" style={{backgroundImage: 'url(' + photo.userPic +')'}}></div>
+      <div className="name">{photo.userName}</div>
+      <div className="caption">{photo.caption}</div>
+    </div>);
   }
 
   galleryImageCountClick() {
@@ -159,5 +130,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-window.App = App;
