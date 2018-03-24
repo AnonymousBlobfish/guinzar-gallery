@@ -1,18 +1,20 @@
+require('newrelic');
 const request = require('supertest')
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan');
 
-mongoose.connect('mongodb://localhost/wegot');
+mongoose.connect('mongodb://gallery:potato@172.31.6.92/wegot');
 
-const Photos = require('../database/index.js');
+const db = require('../database/index.js');
 
 const app = express();
 
 app.use(cors());
-
+// app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // serve static files from dist dir
@@ -25,13 +27,53 @@ app.get('/', (req, res) => {
 
 // retrieve data from API(db)
 app.get('/api/restaurants/:id/gallery', (req, res) => {
-  const id = req.params.id;
-  console.log('server querying for id: ', id);
-  Photos.findOne(id, (err, data) => {
+  const { id } = req.params;
+  // console.log('server querying for id: ', id);
+  db.findOne(id, (err, data) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json(data[0]);
+      const result = { name: data[0].name, photos: JSON.parse(data[0].photos) };
+      const { photos } = result;
+      // console.log(photos);
+      const userIds = photos.map(photo => photo.user_id);
+      // console.log(userIds);
+      db.findUsers(userIds, (err, data) => {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          // console.log(data);
+          const users = data.reduce((acc, user) => {
+            acc[user.id] = user;
+            return acc;
+          }, {});
+          for (let i = 0; i < photos.length; i += 1) {
+            photos[i].userName = users[photos[i].user_id].name;
+            photos[i].userPic = users[photos[i].user_id].pic;
+            // photos[i].userJoin = users[photos[i].user_id].join;
+          }
+          res.json(result);
+        }
+      });
+      // const result = data[0].toObject();
+      // const { photos } = result;
+      // const userIds = photos.map(photo => photo.user_id);
+      // db.findUsers(userIds, (err, data) => {
+      //   if (err) {
+      //     res.sendStatus(500);
+      //   } else {
+      //     const users = data.reduce((acc, user) => {
+      //       acc[user.id] = user;
+      //       return acc;
+      //     }, {});
+      //     for (let i = 0; i < photos.length; i += 1) {
+      //       photos[i].userName = users[photos[i].user_id].name;
+      //       photos[i].userPic = users[photos[i].user_id].pic;
+      //       photos[i].userJoin = users[photos[i].user_id].join;
+      //     }
+      //     res.json(result);
+      //   }
+      // });
     }
   });
 });

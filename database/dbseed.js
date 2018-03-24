@@ -5,26 +5,25 @@ const faker = require('faker');
 const fs = require('fs');
 
 // mongoimport --db wegot --collection photos --drop --file ~/hr/guinzar-gallery/database/data.json --type json --jsonArray
-const writeStream = fs.createWriteStream('poop.json');
+const writeStream = fs.createWriteStream('data.json');
 writeStream.write('[');
-const numEntries = 1000;
+const numEntries = 10000000;
 let i = 0, nameIndex = 0, photoIndex = 0;
 function write() {
   let ok = true;
   while (i < numEntries && ok) {
     // console.log(i + ' ' + ok)
     const photos = [];
-    for (let n = 0; n < 10; n += 1) {
+    for (let n = 0; n < 8; n += 1) {
       const photo = {
-        url: `http://dfvt5qu7sqzrv.cloudfront.net/${photoUrls[photoIndex + n]}`,
+        url: photoUrls[photoIndex + n],
         user_id: Math.floor(Math.random() * 1000000) + 1,
         // user_id: userIds[Math.floor(Math.random() * 1000)]['_id'],
-        date: faker.date.past(3),
         caption: faker.lorem.sentence(),
       };
       photos.push(photo);
     }
-    photoIndex += 10;
+    photoIndex += 8;
     if (photoIndex >= photoUrls.length) photoIndex = 0;
     let str = `{"id":${i + 1},"name":"${names[nameIndex]}","photos":${JSON.stringify(photos)}}`;
     if (i !== numEntries - 1) str += ',';

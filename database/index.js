@@ -36,12 +36,29 @@ const Users = mongoose.model('Users', userSchema);
 
 // findOne will retrieve the photo associated with the given id
 function findOne(id, callback) {
-  console.log('database finding rest by id:', id);
-  Photos.find({ id }, callback);
+  // console.log('database finding rest by id:', id);
+  // Photos.find({ id }, callback);
+  var query = `select name, photos from photos where id=${id}`;
+  mysql.query(query, (err, result) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
 }
 function findUsers(ids, callback) {
-  console.log('database finding user by ObjectIds:', ids);
-  Users.find({ id: { $in: ids } }, callback);
+  // console.log('database finding user by ObjectIds:', ids);
+  // Users.find({ id: { $in: ids } }, callback);
+  ids = ids.join(', ');
+  var query = `select * from users where id in (${ids})`;
+  mysql.query(query, (err, result) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
 }
 // // insertOne will insert on entry into database
 // function insertOne(entry, callback) {

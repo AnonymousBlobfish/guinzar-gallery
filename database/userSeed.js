@@ -14,7 +14,6 @@ function write() {
     const user = {
       id: i + 1,
       name: faker.name.findName(),
-      join: faker.date.past(8),
       pic: userUrls[userIndex],
     };
     userIndex += 1;

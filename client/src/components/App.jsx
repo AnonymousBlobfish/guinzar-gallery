@@ -34,7 +34,7 @@ export default class App extends React.Component {
         const photos = [];
         for (let i = 0; i < response.data.photos.length; i += 1) {
           const photo = {
-            src: response.data.photos[i].url,
+            src: `http://dfvt5qu7sqzrv.cloudfront.net/${response.data.photos[i].url}`,
             width: 10,
             height: 10,
             caption: this.createCaption(response.data.photos[i]),
@@ -59,7 +59,7 @@ export default class App extends React.Component {
 
   createCaption(photo) {
     return (<div className="author-details">
-      <div className="avatar" style={{backgroundImage: 'url(' + photo.userPic +')'}}></div>
+      <div className="avatar" style={{backgroundImage: 'url(https://randomuser.me/api/portraits/thumb/' + photo.userPic +'.jpg)'}}></div>
       <div className="name">{photo.userName}</div>
       <div className="caption">{photo.caption}</div>
     </div>);

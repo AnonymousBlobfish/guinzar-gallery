@@ -159,3 +159,131 @@
   },
   "ok" : 1
 }
+// mongo
+All virtual users finished
+Summary report @ 14:51:28(-0700) 2018-03-19
+  Scenarios launched:  3600
+  Scenarios completed: 3600
+  Requests completed:  720000
+  RPS sent: 3071.02
+  Request latency:
+    min: 0.3
+    max: 1446.1
+    median: 91.3
+    p95: 204.7
+    p99: 950.3
+  Scenario counts:
+    0: 3600 (100%)
+  Codes:
+    200: 720000
+//
+All virtual users finished
+Summary report @ 17:12:35(-0700) 2018-03-19
+  Scenarios launched:  3600
+  Scenarios completed: 3600
+  Requests completed:  720000
+  RPS sent: 2921.84
+  Request latency:
+    min: 0.3
+    max: 1476.6
+    median: 94.4
+    p95: 227
+    p99: 1014.4
+  Scenario counts:
+    0: 3600 (100%)
+  Codes:
+    200: 720000
+// sql
+All virtual users finished
+Summary report @ 20:17:00(-0700) 2018-03-19
+  Scenarios launched:  3600
+  Scenarios completed: 3600
+  Requests completed:  720000
+  RPS sent: 2967.24
+  Request latency:
+    min: 1
+    max: 1550.1
+    median: 100.8
+    p95: 222.8
+    p99: 1058.7
+  Scenario counts:
+    0: 3600 (100%)
+  Codes:
+    200: 720000
+//
+All virtual users finished
+Summary report @ 20:20:43(-0700) 2018-03-19
+  Scenarios launched:  3600
+  Scenarios completed: 2666
+  Requests completed:  592878
+  RPS sent: 2852.81
+  Request latency:
+    min: 0.4
+    max: 1773.7
+    median: 188.9
+    p95: 424.1
+    p99: 1191.1
+  Scenario counts:
+    0: 3600 (100%)
+  Codes:
+    200: 592878
+  Errors:
+    ECONNRESET: 607
+    ECONNREFUSED: 327
+
+// mongo final?
+All virtual users finished
+Summary report @ 17:39:15(-0700) 2018-03-21
+  Scenarios launched:  600
+  Scenarios completed: 600
+  Requests completed:  60000
+  RPS sent: 987.82
+  Request latency:
+    min: 1.4
+    max: 223.9
+    median: 11.8
+    p95: 22.5
+    p99: 37.7
+  Scenario counts:
+    0: 600 (100%)
+  Codes:
+    200: 60000
+// sql final
+All virtual users finished
+Summary report @ 17:44:24(-0700) 2018-03-21
+  Scenarios launched:  600
+  Scenarios completed: 600
+  Requests completed:  60000
+  RPS sent: 768.05
+  Request latency:
+    min: 1.8
+    max: 468.4
+    median: 172.1
+    p95: 318.8
+    p99: 361.8
+  Scenario counts:
+    0: 600 (100%)
+  Codes:
+    200: 60000
+//
+ ❯ go run vegeta_breaker.go                                                                                                       [10:30:55]
+✨  Success at 20 req/sec (latency 7.201088ms)
+✨  Success at 40 req/sec (latency 7.260908ms)
+✨  Success at 80 req/sec (latency 4.977856ms)
+✨  Success at 160 req/sec (latency 3.312203ms)
+✨  Success at 320 req/sec (latency 2.291224ms)
+✨  Success at 640 req/sec (latency 1.296726ms)
+✨  Success at 1280 req/sec (latency 1.195063ms)
+💥  Failed at 2560 req/sec (latency 2.057167699s)
+✨  Success at 1920 req/sec (latency 10.502962ms)
+✨  Success at 2240 req/sec (latency 15.498833ms)
+✨  Success at 2400 req/sec (latency 34.14567ms)
+✨  Success at 2480 req/sec (latency 291.903863ms)
+✨  Success at 2520 req/sec (latency 29.810979ms)
+💥  Failed at 2540 req/sec (latency 2.200569897s)
+💥  Failed at 2530 req/sec (latency 10.132817415s)
+💥  Failed at 2525 req/sec (latency 2.161846524s)
+✨  Success at 2522 req/sec (latency 61.525851ms)
+💥  Failed at 2523 req/sec (latency 2.150809859s)
+➡️  Maximum Working Rate: 2522 req/sec
+//

@@ -27,3 +27,7 @@ dist/bundle.js
 
 # data.json
 database/data.json
+database/users.json
+database/users.csv
+database/photos.csv
+database/wegot.sql
